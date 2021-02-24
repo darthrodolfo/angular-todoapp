@@ -1,16 +1,17 @@
-<h1>Lista de Tarefas</h1>
-<ul>
-  <p>
-    <small>Small teste</small>
+<h1 class="tile animated jackInTheBox">Lista de Tarefas</h1>
+<ul class="animated flipInX" *ngIf="appState == appStateList.LISTA">
+  <p class="text-center" *ngIf="toDosList.length == 0">
+    <small>Você não tem nenhuma tarefa.</small>
   </p>
-  <li>Você não tem nenhuma tarefa hoje
-    <button><i class="far fa-trash-alt"></i>Remover</button> |
-    <button><i class="far fa-check-circle"></i>Feito</button> |
-    <button><i class="fas fa-check-circle"></i>Desmarcar</button>
+  <li *ngFor="let toDoTask of toDosList">
+    {{ toDoTask.title }}
+    <button (click)="removeTask(toDoTask)"><i class="far fa-trash-alt"></i></button> |
+    <button *ngIf="toDoTask.isDone == false" (click)="markAsDone(toDoTask)"><i class="far fa-check-circle"></i></button>
+    <button *ngIf="toDoTask.isDone" (click)="markAsDone(toDoTask)"><i class="fas fa-check-circle"></i></button>
   </li>
 </ul>
 
-<div>
+<div id="modal">
   <h1>Nova Tarefa</h1>
   <form [formGroup]="taskForm">
     <input type="text" placeholder="Título da Tarefa" maxlength="60" formControlName="title"><br>
