@@ -1,25 +1,33 @@
-<h1 class="tile animated jackInTheBox">Lista de Tarefas</h1>
-<ul class="animated flipInX" *ngIf="appState == appStateList.LISTA">
+<h1 class="tile animated jackInTheBox">To Do App</h1>
+<ul class="animated flipInX" *ngIf="appState == appStateList.LIST">
   <p class="text-center" *ngIf="toDosList.length == 0">
-    <small>Você não tem nenhuma tarefa.</small>
+    <small>Você não tem nenhuma tarefa adicionada.</small>
   </p>
   <li *ngFor="let toDoTask of toDosList">
     {{ toDoTask.title }}
     <button (click)="removeTask(toDoTask)"><i class="far fa-trash-alt"></i></button> |
     <button *ngIf="toDoTask.isDone == false" (click)="markAsDone(toDoTask)"><i class="far fa-check-circle"></i></button>
-    <button *ngIf="toDoTask.isDone" (click)="markAsDone(toDoTask)"><i class="fas fa-check-circle"></i></button>
+    <button *ngIf="toDoTask.isDone" (click)="markAsUndone(toDoTask)"><i class="fas fa-check-circle"></i></button>
   </li>
 </ul>
 
-<div id="modal">
-  <h1>Nova Tarefa</h1>
+<div id="modal" *ngIf="appState == appStateList.NEW_TASK" class="animated flipInX">
+  <h1 class="text-center">Nova Tarefa</h1>
   <form [formGroup]="taskForm">
     <input type="text" placeholder="Título da Tarefa" maxlength="60" formControlName="title"><br>
-    <small></small>
-    <p><button>Teste Butão</button></p>
+    <small class="danger" *ngIf="taskForm.controls.title.invalid && taskForm.controls.title.pristine == false">Este campo deve conter entre 3 e 60 carácteres</small>
+    <p class="text-center">
+      <button [disabled]="taskForm.invalid" (click)="addTask()" class="button"><i class="far fa-save"></i> Salvar</button>
+    </p>
   </form>
   <br><br>
 </div>
 
-<button><i class="fas fa-plus-circle"></i>NOVA TAREFA</button>
-<button><i class="fas fa-times"></i>CANCELAR</button>
+<button class="add-button animated fadeInUp button"
+ (click)="changeAppState(appStateList.NEW_TASK)"
+ *ngIf="appState == appStateList.LIST">
+ <i class="fas fa-plus-circle"></i> Nova Tarefa</button>
+<button class="add-button animated fadeInUp button"
+ (click)="changeAppState(appStateList.LIST)"
+ *ngIf="appState == appStateList.NEW_TASK">
+ <i class="fas fa-times"></i> Cancelar</button>

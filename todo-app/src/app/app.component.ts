@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToDoTask } from 'src/models/todo.model';
+import { ToDoTask } from 'src/models/todotask.model';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +11,14 @@ export class AppComponent {
   title = 'todo-app';
   public taskForm: FormGroup;
   public toDosList: ToDoTask[] = [];
-  public appState: AppStateList = AppStateList.LISTA;
+  public appState: AppStateList = AppStateList.LIST;
   public appStateList = AppStateList;
 
 
   constructor(private formBuilder: FormBuilder) {
 
     this.taskForm = this.formBuilder.group({
-      title:['333', Validators.compose([
+      title:['', Validators.compose([
       Validators.maxLength(60),
        Validators.minLength(3),
         Validators.required,
@@ -39,12 +39,12 @@ export class AppComponent {
     this.toDosList.push(new ToDoTask(id,title, false));
     this.saveTask();
     this.clearForm();
-    this.changeAppState(AppStateList.LISTA);
+    this.changeAppState(AppStateList.LIST);
   }
 
   removeTask(toDoTask: ToDoTask) {
     let index = this.toDosList.indexOf(toDoTask);
-    if(index ===1) {
+    if(index!==-1) {
       this.toDosList.splice(index, 1);
     }
     this.saveTask();
@@ -55,10 +55,12 @@ export class AppComponent {
   }
 
   markAsDone(toDoTask: ToDoTask) {
+    console.log('teste done')
     toDoTask.isDone = true;
     this.saveTask();
   }
   markAsUndone(toDoTask: ToDoTask) {
+    console.log('teste unDone');
     toDoTask.isDone = false;
     this.saveTask();
   }
@@ -69,6 +71,8 @@ export class AppComponent {
   }
 
   loadToDoList() {
+    console.log('estado');
+    console.log(this.appState);
     const savedToDoList = localStorage.getItem('toDoList');
 
     if(savedToDoList == undefined) {
@@ -81,7 +85,7 @@ export class AppComponent {
 }
 
 enum AppStateList {
-  LISTA = 'lista',
-  NOVA_TAREFA = 'nova_tarefa'
+  LIST = 'list',
+  NEW_TASK = 'new_task'
 }
 
