@@ -1,12 +1,24 @@
 <h1>Lista de Tarefas</h1>
-<ul><p>Paragrafo, teste<small>Small teste</small>
-</p>
-<li>Você não tem nenhuma tarefa hoje</li>
+<ul>
+  <p>
+    <small>Small teste</small>
+  </p>
+  <li>Você não tem nenhuma tarefa hoje
+    <button><i class="far fa-trash-alt"></i>Remover</button> |
+    <button><i class="far fa-check-circle"></i>Feito</button> |
+    <button><i class="fas fa-check-circle"></i>Desmarcar</button>
+  </li>
 </ul>
 
 <div>
   <h1>Nova Tarefa</h1>
-  <p><button>Teste Butão</button></p>
+  <form [formGroup]="taskForm">
+    <input type="text" placeholder="Título da Tarefa" maxlength="60" formControlName="title"><br>
+    <small></small>
+    <p><button>Teste Butão</button></p>
+  </form>
+  <br><br>
 </div>
 
-<button>Teste de botão fora do DIV</button>
+<button><i class="fas fa-plus-circle"></i>NOVA TAREFA</button>
+<button><i class="fas fa-times"></i>CANCELAR</button>
